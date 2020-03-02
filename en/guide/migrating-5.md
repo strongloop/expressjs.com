@@ -45,6 +45,7 @@ See the [pull request](https://github.com/strongloop/express/pull/2237) for a li
 
 <ul class="doclist">
   <li><a href="#app.router">app.router</a></li>
+  <li><a href="#path-to-regexp">path-to-regexp</a></li>
   <li><a href="#req.host">req.host</a></li>
   <li><a href="#req.query">req.query</a></li>
 </ul>
@@ -115,6 +116,14 @@ The `res.sendfile()` function has been replaced by a camel-cased version `res.se
 <h4 id="app.router">app.router</h4>
 
 The `app.router` object, which was removed in Express 4, has made a comeback in Express 5. In the new version, this object is a just a reference to the base Express router, unlike in Express 3, where an app had to explicitly load it.
+
+<h4 id="path-to-regexp"><path-to-regexp</h4>
+
+From Express 5 onwards, following are the changes with respect to path-to-regexp which has direct implications to route.
+* RegExp special characters can now only be used in a parameter, as opposed to anywhere.
+* Parameters can have suffixes to augment meaning - *, + and ?. E.g. /:user*
+* No wildcard asterisk (*) - use parameters instead ((.*) or :splat*)
+* `/foo/` will match only `/foo/` and nothing else, for old behaviour use `/foo` instead.
 
 <h4 id="req.host">req.host</h4>
 
