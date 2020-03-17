@@ -121,8 +121,8 @@ The `app.router` object, which was removed in Express 4, has made a comeback in 
 
 From Express 5 onwards, following are the changes with respect to path-to-regexp which has direct implications to route.
 * RegExp special characters can now only be used in a parameter, as opposed to anywhere.
-* Parameters can have suffixes to augment meaning - *, + and ?. E.g. /:user*
-* No wildcard asterisk (*) - use parameters instead ((.*) or :splat*)
+* Parameters can have suffixes to augment meaning -`*`, `+` and `?`. E.g. `/:user*`
+* No wildcard asterisk `(*)` - use parameters instead (`(.*)` or `:splat*`)
 * `/foo/` will match only `/foo/` and nothing else, for old behaviour use `/foo` instead.
 
 <h4 id="req.host">req.host</h4>
