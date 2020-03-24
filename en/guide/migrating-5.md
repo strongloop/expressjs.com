@@ -121,7 +121,10 @@ The `app.router` object, which was removed in Express 4, has made a comeback in 
 
 From Express 5 onwards, following are the changes with respect to path-to-regexp which has direct implications to route.
 * RegExp special characters can now only be used in a parameter, as opposed to anywhere.
-* Parameters can have suffixes to augment meaning -`*`, `+` and `?`. E.g. `/:user*`
+* Parameters can have suffixes to augment meaning and affect how matching works:
+    * `*`: [Zero or more](https://github.com/pillarjs/path-to-regexp#zero-or-more), e.g. `/:foo*` matches `/bar/baz` and `/`
+    * `+`: [One or more](https://github.com/pillarjs/path-to-regexp#one-or-more), e.g. `/:foo+` matches `/bar` and `/bar/baz` but not `/`
+    * `?`: [Optional](https://github.com/pillarjs/path-to-regexp#optional), e.g. `/:foo/:bar?` matches `/bar` and `/bar/baz`
 * No wildcard asterisk `(*)` - use parameters instead (`(.*)` or `:splat*`)
 * `/foo/` will match only `/foo/` and nothing else, for old behaviour use `/foo` instead.
 
