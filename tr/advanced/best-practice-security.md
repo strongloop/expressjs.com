@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Üründe ki Express için En İyi Güvenlik Uygulamaları
+title: Security Best Practices for Express in Production
 menu: advanced
 lang: tr
 ---
-<div id="page-doc" markdown="1">
+
 # Production Best Practices: Security
 
 ## Overview
@@ -14,7 +14,7 @@ The term _"production"_ refers to the stage in the software lifecycle when an ap
 Development and production environments are usually set up differently and have vastly different requirements. What's fine in development may not be acceptable in production. For example, in a development environment you may want verbose logging of errors for debugging, while the same behavior can become a security concern in a production environment. And in development, you don't need to worry about scalability, reliability, and performance, while those concerns become critical in production.
 
 {% include note.html content="If you believe you have discovered a security vulnerability in Express, please see
-[Security Policies and Procedures](https://github.com/expressjs/express/blob/master/Security.md).
+[Security Policies and Procedures](/en/resources/contributing.html#security-policies-and-procedures).
 " %}
 
 Security best practices for Express applications in production include:
@@ -23,6 +23,7 @@ Security best practices for Express applications in production include:
 - [Use TLS](#use-tls)
 - [Use Helmet](#use-helmet)
 - [Use cookies securely](#use-cookies-securely)
+- [Prevent brute-force attacks against authorization](#prevent-brute-force-attacks-against-authorization)
 - [Ensure your dependencies are secure](#ensure-your-dependencies-are-secure)
 - [Avoid other known vulnerabilities](#avoid-other-known-vulnerabilities)
 - [Additional considerations](#additional-considerations)
@@ -40,13 +41,13 @@ If your app deals with or transmits sensitive data, use [Transport Layer Securit
 
 You may be familiar with Secure Socket Layer (SSL) encryption. [TLS is simply the next progression of SSL](https://msdn.microsoft.com/en-us/library/windows/desktop/aa380515(v=vs.85).aspx). In other words, if you were using SSL before, consider upgrading to TLS.  In general, we recommend Nginx to handle TLS.  For a good reference to configure TLS on Nginx (and other servers), see [Recommended Server Configurations (Mozilla Wiki)](https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_Server_Configurations).
 
-Also, a handy tool to get a free TLS certificate is [Let's Encrypt](https://letsencrypt.org/about/), a free, automated, and open certificate authority (CA) provided by the [Internet Security Research Group (ISRG)](https://letsencrypt.org/isrg/).
+Also, a handy tool to get a free TLS certificate is [Let's Encrypt](https://letsencrypt.org/about/), a free, automated, and open certificate authority (CA) provided by the [Internet Security Research Group (ISRG)](https://www.abetterinternet.org/).
 
 ## Use Helmet
 
 [Helmet](https://www.npmjs.com/package/helmet) can help protect your app from some well-known web vulnerabilities by setting HTTP headers appropriately.
 
-Helmet is actually just a collection of nine smaller middleware functions that set security-related HTTP headers:
+Helmet is actually just a collection of smaller middleware functions that set security-related HTTP response headers:
 
 * [csp](https://github.com/helmetjs/csp) sets the `Content-Security-Policy` header to help prevent cross-site scripting attacks and other cross-site injections.
 * [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) removes the `X-Powered-By` header.
@@ -150,23 +151,27 @@ app.use(session({
 }))
 ```
 
+## Prevent brute-force attacks against authorization
+
+Make sure login endpoints are protected to make private data more secure.
+
+A simple and powerful technique is to block authorization attempts using two metrics:
+1. The first is number of consecutive failed attempts by the same user name and IP address. 
+1. The second is number of failed attempts from an IP address over some long period of time. For example, block an IP address if it makes 100 failed attempts in one day.
+
+[rate-limiter-flexible](https://github.com/animir/node-rate-limiter-flexible) package provides tools to make this technique easy and fast.  You can find [an example of brute-force protection in the documentation](https://github.com/animir/node-rate-limiter-flexible/wiki/Overall-example#login-endpoint-protection)
+
 ## Ensure your dependencies are secure
 
 Using npm to manage your application's dependencies is powerful and convenient.  But the packages that you use may contain critical security vulnerabilities that could also affect your application.  The security of your app is only as strong as the "weakest link" in your dependencies.
 
-Use either or both of the following two tools to help ensure the security of third-party packages that you use: [nsp](https://www.npmjs.com/package/nsp) and [Snyk](https://snyk.io/).
-
-[nsp](https://www.npmjs.com/package/nsp) is a command-line tool that checks the [Node Security Project](https://nodesecurity.io/) vulnerability database to determine if your application uses packages with known vulnerabilities. Install it as follows:
+Since npm@6, npm automatically reviews every install request. Also you can use 'npm audit' to analyze your dependency tree.
 
 ```sh
-$ npm i nsp -g
+$ npm audit
 ```
 
-Use this command to submit the `npm-shrinkwrap.json` / `package.json` files for validation to [nodesecurity.io](https://nodesecurity.io/):
-
-```sh
-$ nsp check
-```
+If you want to stay more secure, consider [Snyk](https://snyk.io/).
 
 Snyk offers both a [command-line tool](https://www.npmjs.com/package/snyk) and a [Github integration](https://snyk.io/docs/github) that checks your application against [Snyk's open source vulnerability database](https://snyk.io/vuln/) for any known vulnerabilities in your dependencies. Install the CLI as follows:
 
@@ -175,7 +180,7 @@ $ npm install -g snyk
 $ cd your-app
 ```
 
-Use this command to test your application for vulnerabilities: 
+Use this command to test your application for vulnerabilities:
 
 ```sh
 $ snyk test
@@ -191,18 +196,15 @@ $ snyk wizard
 
 Keep an eye out for [Node Security Project](https://nodesecurity.io/advisories) or [Snyk](https://snyk.io/vuln/) advisories that may affect Express or other modules that your app uses.  In general, these databases are excellent resources for knowledge and tools about Node security.
 
-Finally, Express apps - like any other web apps - can be vulnerable to a variety of web-based attacks. Familiarize yourself with known [web vulnerabilities](https://www.owasp.org/index.php/Top_10_2013-Top_10) and take precautions to avoid them.
+Finally, Express apps - like any other web apps - can be vulnerable to a variety of web-based attacks. Familiarize yourself with known [web vulnerabilities](https://www.owasp.org/index.php/Top_10-2017_Top_10) and take precautions to avoid them.
 
 ## Additional considerations
 
 Here are some further recommendations from the excellent [Node.js Security Checklist](https://blog.risingstack.com/node-js-security-checklist/).  Refer to that blog post for all the details on these recommendations:
 
-* Implement rate-limiting to prevent brute-force attacks against authentication.  One way to do this is to use [StrongLoop API Gateway](https://strongloop.com/node-js/api-gateway/) to enforce a rate-limiting policy.  Alternatively, you can use middleware such as [express-limiter](https://www.npmjs.com/package/express-limiter), but doing so will require you to modify your code somewhat.
 * Use [csurf](https://www.npmjs.com/package/csurf) middleware to protect against cross-site request forgery (CSRF).
 * Always filter and sanitize user input to protect against cross-site scripting (XSS) and command injection attacks.
 * Defend against SQL injection attacks by using parameterized queries or prepared statements.
 * Use the open-source [sqlmap](http://sqlmap.org/) tool to detect SQL injection vulnerabilities in your app.
 * Use the [nmap](https://nmap.org/) and [sslyze](https://github.com/nabla-c0d3/sslyze) tools to test the configuration of your SSL ciphers, keys, and renegotiation as well as the validity of your certificate.
 * Use [safe-regex](https://www.npmjs.com/package/safe-regex) to ensure your regular expressions are not susceptible to [regular expression denial of service](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS) attacks.
-
-</div>
