@@ -14,19 +14,19 @@ _"canlı ortam"_ terimi, bir uygulama veya API'nin genel olarak son kullanıcıl
 Canlı ve geliştirme ortamları genel olarak farklı şekilde kurulurlar ve çok farklı gereksinimleri vardır. Geliştirme ortamında iyi olan bir şey canlı ortamda kabul edilebilir olmayabilir. Örneğin, geliştirme ortamında hata ayıklama için ayrıntılı hataların loglanmasını isteyebilirsiniz, ancak aynı şey canlı ortamda güvenlik açığı oluşturabilir. Ve geliştirme ortamında ölçeklenebilirlik, güvenilirlik ve performans hakkında endişe etmenize gerek yok iken, bu konular canlı ortamda kritikleşir.
 
 {% include note.html content="Express'te bir güvenlik açığı keşfettiğinizi düşünüyorsanız, lütfen bakınız
-[Güvenlik Politikaları ve Prosedürleri](/en/resources/contributing.html#security-policies-and-procedures).
+[Güvenlik Politikaları ve Prosedürleri](https://github.com/expressjs/express/blob/master/Security.md).
 " %}
 
 Canlı ortamdaki Express uygulamaları için en iyi güvenlik pratikleri:
 
-- [Express'in kullanımdan kaldırılmış veya bakımı yapılmayan versiyonlarını kullanmayın](#dont-use-deprecated-or-vulnerable-versions-of-express)
-- [TLS kullanın](#use-tls)
-- [Helmet kullanın](#use-helmet)
-- [Çerezleri güvenli kullanın](#use-cookies-securely)
-- [Otorizasyona karşı yapılan brute-force saldırılarını engelleyin](#prevent-brute-force-attacks-against-authorization)
-- [Bağımlılıklarınızın güvende olduğundan emin olun](#ensure-your-dependencies-are-secure)
-- [Bilinen diğer güvenlik açıklarından kaçının](#avoid-other-known-vulnerabilities)
-- [Ek hususlar](#additional-considerations)
+- [Express'in kullanımdan kaldırılmış veya bakımı yapılmayan versiyonlarını kullanmayın](#expressin-kullanımdan-kaldırılmış-veya-bakımı-yapılmayan-versiyonlarını-kullanmayın)
+- [TLS kullanın](#tls-kullanın)
+- [Helmet kullanın](#helmet-kullanın)
+- [Çerezleri güvenli kullanın](#çerezleri-güvenli-kullanın)
+- [Otorizasyona karşı yapılan brute-force saldırılarını engelleyin](#otorizasyona-karşı-yapılan-brute-force-saldırılarını-engelleyin)
+- [Bağımlılıklarınızın güvende olduğundan emin olun](#bağımlılıklarınızın-güvende-olduğundan-emin-olun)
+- [Bilinen diğer güvenlik açıklarından kaçının](#bilinen-diğer-güvenlik-açıklarından-kaçının)
+- [Ek hususlar](#ek-hususlar)
 
 ## Express'in kullanımdan kaldırılmış veya bakımı yapılmayan versiyonlarını kullanmayın
 
@@ -42,7 +42,7 @@ Secure Socket Layer (SSL) şifrelemesine aşina olabilirsiniz. [TLS, SSL'nin bir
 
 Ayrıca, [Internet Security Research Group (ISRG)](https://www.abetterinternet.org/) tarafından sunulan ücretsiz, otomatik, ve açık bir sertifika yetkilisi (CA - Certificate Authority) olan [Let's Encrypt](https://letsencrypt.org/about/) ücretsiz bir TLS sertifikası alabileceğiniz araçtır.
 
-## Helmet kullan
+## Helmet kullanın
 
 [Helmet](https://www.npmjs.com/package/helmet), HTTP başlıklarını doğru ayarlayarak uygulamanızı bazı iyi bilinen web güvenlik açıklarına karşı koruyabilir.
 
@@ -194,7 +194,7 @@ Express'i veya uygulamanızın kullandığı diğer modülleri etkileyen [Snyk](
 
 Son olarak, Express uygulamaları - diğer web uygulamaları gibi - çeşitli web tabanlı saldırılara karşı savunmasız olabilir. [Web güvenlik açıkları](https://www.owasp.org/index.php/Top_10-2017_Top_10) hakkında kendinizi bilgilendirin ve onlardan kaçınmak için önlemler alın.
 
-## Diğer hususlar
+## Ek hususlar
 
 İşte mükemmel [Node.js Güvenlik Kontrol Listesi](https://blog.risingstack.com/node-js-security-checklist/)'nden bazı ek öneriler. Bu önerilerle ilgili tüm ayrıntılar için o blog gönderisine bakın:
 
