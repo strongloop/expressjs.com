@@ -57,7 +57,7 @@ Helmet is actually just a collection of smaller middleware functions that set se
 * [noCache](https://github.com/helmetjs/nocache) sets `Cache-Control` and Pragma headers to disable client-side caching.
 * [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) sets `X-Content-Type-Options` to prevent browsers from MIME-sniffing a response away from the declared content-type.
 * [frameguard](https://github.com/helmetjs/frameguard) sets the `X-Frame-Options` header to provide [clickjacking](https://www.owasp.org/index.php/Clickjacking) protection.
-* [xssFilter](https://github.com/helmetjs/x-xss-protection) sets `X-XSS-Protection` to enable the Cross-site scripting (XSS) filter in most recent web browsers.
+* [xssFilter](https://github.com/helmetjs/x-xss-protection) sets `X-XSS-Protection` to disable the buggy Cross-site scripting (XSS) filter in web browsers.
 
 Install Helmet like any other module:
 
@@ -80,7 +80,7 @@ app.use(helmet())
 
 If you don't want to use Helmet, then at least disable the `X-Powered-By` header.  Attackers can use this header (which is enabled by default) to detect apps running Express and then launch specifically-targeted attacks.
 
-So, best practice is to to turn off the header with the `app.disable()` method:
+So, best practice is to turn off the header with the `app.disable()` method:
 
 ```js
 app.disable('x-powered-by')
@@ -195,7 +195,7 @@ $ snyk wizard
 
 ## Avoid other known vulnerabilities
 
-Keep an eye out for [Node Security Project](https://nodesecurity.io/advisories) or [Snyk](https://snyk.io/vuln/) advisories that may affect Express or other modules that your app uses.  In general, these databases are excellent resources for knowledge and tools about Node security.
+Keep an eye out for [Node Security Project](https://npmjs.com/advisories) or [Snyk](https://snyk.io/vuln/) advisories that may affect Express or other modules that your app uses.  In general, these databases are excellent resources for knowledge and tools about Node security.
 
 Finally, Express apps - like any other web apps - can be vulnerable to a variety of web-based attacks. Familiarize yourself with known [web vulnerabilities](https://www.owasp.org/index.php/Top_10-2017_Top_10) and take precautions to avoid them.
 
